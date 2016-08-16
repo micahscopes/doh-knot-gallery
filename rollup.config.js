@@ -14,8 +14,8 @@ export default {
       main: true, // if provided in CommonJS
       browser: true // if provided for browsers
     }),
-    commonjs(),
-    babel()
+    commonjs()
+    // babel()
     // uglify()
   ]
 }
