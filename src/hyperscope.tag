@@ -14,9 +14,6 @@ import ERS from 'element-resize-detector'
     // setup three.js scene
     var camera, scene, renderer;
     hs.scene = new THREE.Scene();
-    var light = new THREE.PointLight( 0xff0000, 10, 100 );
-    light.position.set( 50, 50, 50 );
-    hs.scene.add( light );
     hs.mesh = new THREE.Mesh();
 
     hs.scene.add(hs.mesh);
@@ -66,7 +63,7 @@ import ERS from 'element-resize-detector'
 
       requestAnimationFrame( animate );
 
-      hs.mesh.rotation.x += 0.005;
+      hs.mesh.rotation.x += 0.01;
       hs.mesh.rotation.y += 0.01;
 
       renderer.render( hs.scene, camera );

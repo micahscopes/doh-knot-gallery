@@ -7,9 +7,32 @@
   </head>
 
   <body>
-  <hyperscope data-texture="smudgy1.jpg"></hyperscope>
-  <hyperscope style={width:500px;height:500px;} data-texture="smudgy2.jpg"></hyperscope>
+  <hyperscope class='follow-mouse' data-texture="smudgy1.jpg"></hyperscope>
+  <hyperscope class='bigger' data-texture="smudgy2.jpg"></hyperscope>
     <script src="dist/bundle.js"></script>
+    <script>
+      var mouseFollowers = document.querySelectorAll('.follow-mouse');
+      console.log(mouseFollowers);
+      document.onmousemove = function(e){
+        for(var f of mouseFollowers) {
+          // console.log(f);
+          f.style.left = (e.clientX-0.5*f.clientWidth)+"px";
+          f.style.top = (e.clientY-0.5*f.clientHeight)+"px";
+        }
+      }
+    </script>
+    <style>
+      .follow-mouse {
+        position: absolute;
+      }
+      hyperscope.bigger {
+        top: 0px;
+        left: 0px;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
   </body>
 
 </html>
