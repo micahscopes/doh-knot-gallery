@@ -54,10 +54,4 @@ import './scene-camera.js'
     }
 
   </script>
-  <style>
-    canvas {
-      width: 500px;
-      height: 500px;
-    }
-  </style>
 </random-torus>
