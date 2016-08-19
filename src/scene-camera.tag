@@ -1,5 +1,5 @@
-import SCM from './scene-camera.js'
+import './mixins.js'
 
 <scene-camera>
-this.mixin(SCM);
+this.mixin(SceneCameraMixin);
 </scene-camera>

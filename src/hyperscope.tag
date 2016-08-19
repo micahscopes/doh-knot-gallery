@@ -1,5 +1,6 @@
+import 'riot'
 import THREE from 'three'
-import {SceneCameraMixin,ClickToOpenMixin} from './mixins.js'
+import {SceneCameraMixin, ClickToOpenMixin} from './mixins.js'
 
 <random-torus>
   <script>
@@ -22,16 +23,14 @@ import {SceneCameraMixin,ClickToOpenMixin} from './mixins.js'
 
       rotate();
     });
-    self.on('click',function(){
-      if(self._zoomed){self.updateGeometry()}
-    });
+
     self.updateGeometry = function(geometry){
       if (geometry != undefined){
         self.mesh.geometry = geometry;
       } else {
         r1 = Math.floor(Math.random()*3+1)
         r2 = Math.floor(Math.random()*4+1)
-        self.mesh.geometry = new THREE.TorusKnotGeometry(100,15,256,16,r1,r2);
+        self.mesh.geometry = new THREE.TorusKnotGeometry(100,15,256,45,r1,r2);
       }
     }
     self.updateTexture = function(texture){

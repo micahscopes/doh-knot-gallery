@@ -1,5 +1,7 @@
 import THREE from 'three'
-export default SceneCameraMixin = {
+import riot from 'riot'
+
+export const SceneCameraMixin = {
   init: function(){
     this.on('before-mount', () => {
       this.setup();
@@ -32,5 +34,34 @@ export default SceneCameraMixin = {
     this.trigger('animate',this);
     this.renderer.render( this.scene, this.camera );
   },
-
 }
+
+export const ClickToOpenMixin = {
+  init: function() {
+    riot.observable(window);
+    window.onkeyup = function(k){window.trigger('keyup',k)}
+    this._zoomed = false;
+    self = this;
+    this.root.onclick = function(e){
+      self.trigger('click',e)
+    }
+    this.on('click', function() {
+      if(!self._zoomed){
+        self.root.style.position = 'absolute'
+        self.root.style.width = '100%'
+        self.root.style.height = '100%'
+        window.requestAnimationFrame(() => self._zoomed = true)
+      }
+    });
+    window.on('keyup',function(k){
+      if(k.code == 'Escape') {
+        self.root.style.position = ''
+        self.root.style.width = ''
+        self.root.style.height = ''
+        self._zoomed = false
+      }
+    });
+  }
+}
+
+// export { ClickToOpenMixin, SceneCameraMixin };
