@@ -36,36 +36,64 @@ export const SceneCameraMixin = {
   },
 }
 
-export const ClickToOpenMixin = {
+export const ClickZoomMixin = {
   init: function() {
-    try {riot.observable(window)} catch(TypeError){}
-    window.onkeyup = function(k){window.trigger('keyup',k)}
     var self = this;
-    this.root.onclick = function(e){
-      self.trigger('click',e)
-    }
-    this.on('click', function() {
-        self.trigger('zoom');
+    this.root.addEventListener('click',function(e){
+      window.requestAnimationFrame(()=>self.trigger('zoom'));
     });
-    this.on('zoom',function(){
-      location.hash = "zoomed"
-      self.root.classList.add("zoomed")
-    })
+    this.on('zoom',this.zoom);
     riot.route(function(hash){
       if(hash==""){ self.trigger('unzoom') }
     });
-    this.on('unzoom',function(){
-      self.root.classList.remove("zoomed")
-    })
-    window.on('keyup',function(k){
+    this.on('unzoom',this.unzoom);
+    window.addEventListener('keyup',function(k){
       if(k.code == 'Escape') {
         location.hash=""
       }
     });
+  },
+  zoom: function(){
+    location.hash = "zoomed"
+    this.root.classList.add("zoomed")
+  },
+  unzoom: function(){
+    this.root.classList.remove("zoomed")
   },
   isZoomed: function(){
     return this.root.classList.contains('zoomed');
   }
 }
 
-// export { ClickToOpenMixin, SceneCameraMixin };
+export const TurntableMixin = {
+  init: function(){
+    var self = this;
+    if (this.onRotation == undefined){
+      this.onRotation = [];
+    }
+    let dRot = self.dRotation = new THREE.Vector3;
+    dRot.y = 0.02;
+
+    this.on('mount',function(){
+      self.rotate();
+    })
+    window.addEventListener('keyup',function(k){
+      // if this object also mixes in the zoom module, then
+      // only pause/unpause when zoomed
+      if(k.key == " " && (self.isZoomed() || !self.isZoomed)){
+         self.pauseRotation = !self.pauseRotation
+       }
+    })
+  },
+  rotate: function(objs){
+    window.requestAnimationFrame(this.rotate);
+    var dRot = this.dRotation;
+    for (var o of this.onRotation) {
+      if(o.rotation && !this.pauseRotation){
+        o.rotation.x += dRot.x;
+        o.rotation.y += dRot.y;
+        o.rotation.y += dRot.z;
+      }
+    }
+  }
+}

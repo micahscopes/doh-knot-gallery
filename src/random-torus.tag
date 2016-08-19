@@ -1,30 +1,29 @@
 import THREE from 'three'
-import {SceneCameraMixin,ClickToOpenMixin} from './mixins.js'
+import {SceneCameraMixin,ClickZoomMixin,TurntableMixin} from './mixins.js'
 
 <random-torus>
   <script>
     this.mixin(SceneCameraMixin);
-    this.mixin(ClickToOpenMixin);
+    this.mixin(ClickZoomMixin);
+    this.mixin(TurntableMixin);
     const name = 'random-torus';
     var self = this;
-    let dRot = self.dRotation = new THREE.Vector3;
-    dRot.y = 0.02;
+
     this.on('mount', () => {
       self.mesh = new THREE.Mesh();
       this.scene.add(self.mesh);
+      this.onRotation = [self.mesh]
       self.updateGeometry();
       self.updateTexture();
-
-      dRot.y *= Math.random()+0.5;
-
-      rotate();
     });
-    this.on('click',function(){
+
+    this.root.addEventListener('click',function(){
       if(self.isZoomed()){
         self.updateGeometry();
         self.updateTexture();
       }
     });
+
     self.updateGeometry = function(geometry){
       if (geometry != undefined){
         self.mesh.geometry = geometry;
@@ -48,12 +47,6 @@ import {SceneCameraMixin,ClickToOpenMixin} from './mixins.js'
           self.mesh.material = new THREE.MeshBasicMaterial( { map: t } );
         });
       }
-    }
-    function rotate() {
-      requestAnimationFrame(rotate);
-      self.mesh.rotation.x += dRot.x;
-      self.mesh.rotation.y += dRot.y;
-      self.mesh.rotation.y += dRot.z;
     }
 
   </script>

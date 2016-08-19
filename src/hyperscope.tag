@@ -1,11 +1,11 @@
 import 'riot'
 import THREE from 'three'
-import {SceneCameraMixin, ClickToOpenMixin} from './mixins.js'
+import {SceneCameraMixin, ClickZoomMixin} from './mixins.js'
 
 <random-torus>
   <script>
     this.mixin(SceneCameraMixin);
-    this.mixin(ClickToOpenMixin);
+    this.mixin(ClickZoomMixin);
     console.log("random torus");
     const name = 'random-torus';
     var self = this;
