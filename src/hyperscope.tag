@@ -59,9 +59,13 @@ import {SceneCameraMixin, ClickToOpenMixin} from './mixins.js'
       width: 200px;
       height: 200px;
     }
-    canvas {
-      width: 100%;
-      height: 100%;
+    .zoomed:scope {
+      position: absolute;
+      width:100%;
+      height:100%;
+      top: 0;
+      left: 0;
+      background: none;
     }
   </style>
 </random-torus>

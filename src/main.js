@@ -6,3 +6,5 @@ import './random-torus.tag'
 // riot.mount('hyperscope')
 riot.mount('scene-camera')
 riot.mount('random-torus')
+
+riot.route.start(true)

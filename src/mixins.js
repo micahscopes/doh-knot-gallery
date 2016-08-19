@@ -38,29 +38,33 @@ export const SceneCameraMixin = {
 
 export const ClickToOpenMixin = {
   init: function() {
-    riot.observable(window);
+    try {riot.observable(window)} catch(TypeError){}
     window.onkeyup = function(k){window.trigger('keyup',k)}
-    this._zoomed = false;
-    self = this;
+    var self = this;
     this.root.onclick = function(e){
       self.trigger('click',e)
     }
     this.on('click', function() {
-      if(!self._zoomed){
-        self.root.style.position = 'absolute'
-        self.root.style.width = '100%'
-        self.root.style.height = '100%'
-        window.requestAnimationFrame(() => self._zoomed = true)
-      }
+        self.trigger('zoom');
     });
+    this.on('zoom',function(){
+      location.hash = "zoomed"
+      self.root.classList.add("zoomed")
+    })
+    riot.route(function(hash){
+      if(hash==""){ self.trigger('unzoom') }
+    });
+    this.on('unzoom',function(){
+      self.root.classList.remove("zoomed")
+    })
     window.on('keyup',function(k){
       if(k.code == 'Escape') {
-        self.root.style.position = ''
-        self.root.style.width = ''
-        self.root.style.height = ''
-        self._zoomed = false
+        location.hash=""
       }
     });
+  },
+  isZoomed: function(){
+    return this.root.classList.contains('zoomed');
   }
 }
 
