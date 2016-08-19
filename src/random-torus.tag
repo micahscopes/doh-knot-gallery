@@ -2,12 +2,12 @@ import THREE from 'three'
 import ERS from 'element-resize-detector'
 
 <random-torus>
-  <scene-camera></scene-camera>
+  <canvas name="canvas" data-is="scene-camera"></canvas>
   <script>
     console.log("random torus")
     const name = 'random-torus';
     var self = this;
-    sc = self.tags['scene-camera'];
+    sc = self.canvas._tag;
     let dRot = self.dRotation = new THREE.Vector3;
     dRot.x = 0.01; dRot.y = 0.02; dRot.z = 0.03;
     sc.on('mount', () => {
