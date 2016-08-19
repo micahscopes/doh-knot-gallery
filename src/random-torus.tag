@@ -1,18 +1,17 @@
 import THREE from 'three'
-import ERS from 'element-resize-detector'
+import './scene-camera.js'
 
 <random-torus>
-  <canvas name="canvas" data-is="scene-camera"></canvas>
   <script>
-    console.log("random torus")
+    this.mixin(SceneCameraMixin);
+    console.log("random torus");
     const name = 'random-torus';
     var self = this;
-    sc = self.canvas._tag;
     let dRot = self.dRotation = new THREE.Vector3;
     dRot.x = 0.01; dRot.y = 0.02; dRot.z = 0.03;
-    sc.on('mount', () => {
+    this.on('mount', () => {
       self.mesh = new THREE.Mesh();
-      sc.scene.add(self.mesh);
+      this.scene.add(self.mesh);
       self.updateGeometry();
       self.updateTexture();
 
@@ -20,7 +19,7 @@ import ERS from 'element-resize-detector'
       dRot.y *= Math.random()+0.5;
       dRot.y *= Math.random()+0.5;
 
-      animate();
+      rotate();
     });
     self.root.onclick = function(e){
       self.updateGeometry();
@@ -47,12 +46,18 @@ import ERS from 'element-resize-detector'
       }
     }
 
-    function animate() {
-      requestAnimationFrame(animate);
+    function rotate() {
+      requestAnimationFrame(rotate);
       self.mesh.rotation.x += dRot.x;
       self.mesh.rotation.y += dRot.y;
       self.mesh.rotation.y += dRot.z;
     }
 
   </script>
+  <style>
+    canvas {
+      width: 500px;
+      height: 500px;
+    }
+  </style>
 </random-torus>

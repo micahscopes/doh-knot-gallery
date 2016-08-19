@@ -11,14 +11,14 @@ export default SceneCameraMixin = {
     this.trigger('initializaton-station');
     this.camera = new THREE.PerspectiveCamera( 70, this.root.clientWidth/this.root.clientHeight, 1, 1000 );
     this.camera.position.z = 400;
-    let canvas;
     if (this.root.tagName == "CANVAS"){
-      canvas = this.root;
+      this.canvas = this.root;
     }
-    this.renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: true, alpha:true});
+    this.renderer = new THREE.WebGLRenderer({canvas: this.canvas, antialias: true, alpha:true});
     this.renderer.setPixelRatio( window.devicePixelRatio );
     if (this.root != this.renderer.domElement){
       this.root.appendChild( this.renderer.domElement );
+      this.canvas = this.renderer.domElement;
     }
   },
   animate: function(){
