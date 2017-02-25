@@ -1,0 +1,57 @@
+import THREE from 'three'
+import ERS from 'element-resize-detector'
+
+<random-torus>
+  <scene-camera></scene-camera>
+  <script>
+    const name = 'random-torus'
+    var self = this;
+    sc = self.tags['scene-camera'];
+    var dRotation = new THREE.Vector2;
+    dRotation.x = 0.01; dRotation.y = 0.01;
+    var resizeDetector = ERS();
+    this.on('mount', () => {
+      init();
+      animate();
+    })
+
+    // setup three.js scene
+    self.mesh = new THREE.Mesh();
+
+    sc.scene.add(self.mesh);
+
+    self.updateGeometry = function(geometry){
+      if (geometry != undefined){
+        self.mesh.geometry = geometry;
+      } else {
+        r1 = Math.floor(Math.random()*8+2)
+        r2 = Math.floor(Math.random()*5+2)
+        self.mesh.geometry = new THREE.TorusKnotGeometry(100,15,256,45,r1,r2);
+      }
+    }
+    self.updateTexture = function(texture){
+      if (texture != undefined){
+        self.mesh.material.map = texture;
+      } else {
+      let textureLoader = new THREE.TextureLoader();
+      let src = self.root.getAttribute('data-texture');
+      textureLoader.load(src,function(t){
+        self.mesh.material = new THREE.MeshBasicMaterial( { map: t } );
+      });
+      }
+    }
+
+    function init() {
+      dRotation.x *= Math.random()+0.5;
+      dRotation.y *= Math.random()+0.5;
+      self.updateGeometry();
+      self.updateTexture();
+    }
+
+      function animate() {
+      self.mesh.rotation.x += dRotation.x;
+      self.mesh.rotation.y += dRotation.y;
+    }
+
+  </script>
+</random-torus>
