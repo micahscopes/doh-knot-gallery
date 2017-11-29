@@ -1,25 +1,13 @@
 <!doctype html>
 <html>
-  <title>random torus knots!</title>
-  <style>
-    .follow-mouse {
-      position: absolute;
-      border-radius: 100%;
-      border: dotted black 3px;
-    }
-    random-torus.bigger {
-      top: 0px;
-      left: 0px;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-    }
-  </style>
-  <random-torus style="background-color: aquamarine; border: solid grey 5px;" data-texture="smudgy1.jpg"></random-torus>
-  <random-torus class='follow-mouse' data-texture="smudgy1.jpg"></random-torus>
-  <random-torus class='bigger' data-texture="smudgy2.jpg"></random-torus>
-
-  <script src="dist/hyperscope.js"></script>
+  <meta charset="UTF-8">
+  <title>gallery of random torus knots!</title>
+  <random-torus data-texture="examples/smudgy1.jpg"></random-torus>
+  <random-torus data-texture="examples/smudgy2.png"></random-torus>
+  <random-torus data-texture="examples/smudgy3.jpg"></random-torus>
+  <random-torus data-texture="examples/smudgy4.png"></random-torus>
+  <random-torus class='follow-mouse' data-texture="examples/smudgy4.png"></random-torus>
+  <script src="bundle.js"></script>
 
     <script>
       var mouseFollowers = document.querySelectorAll('.follow-mouse');
@@ -32,6 +20,37 @@
         }
       }
     </script>
+    <style>
+      body{
+        background: #3b72a9;
+      }
+      random-torus{
+        z-index:30;
+        background-color: #fffdc9;
+        border: solid white 2px;
+        margin: 10px;
+        float: left;
+        width: 400px;
+        height: 400px;
+        cursor: none;
+      }
+      .zoomed canvas{
+        background-color: rgba(0,0,0,0);
+      }
+      html, random-torus {
+        cursor: none !important;
+      }
+      .follow-mouse {
+        width: 100px;
+        height: 100px;
+        background-color: transparent;
+        position: fixed;
+        border-radius: 100%;
+        border: dotted black 3px;
+        pointer-events: none;
+        overflow: hidden;
+      }
+    </style>
   </body>
 
 </html>

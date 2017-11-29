@@ -1,4 +1,4 @@
-import THREE from 'three'
+import * as THREE from 'three'
 import riot from 'riot'
 
 export const SceneCameraMixin = {
@@ -39,26 +39,84 @@ export const SceneCameraMixin = {
 export const ClickZoomMixin = {
   init: function() {
     var self = this;
+    this.closeButton = document.createElement('a')
+    this.closeButton.innerHTML = '&#10006;'
+    this.closeButton.style.userSelect = 'none';
+    this.closeButton.style.top = 0;
+    this.closeButton.style.left = 0;
+    this.closeButton.style.position = 'fixed'
+    this.closeButton.style.fontSize = '4em'
+    this.closeButton.style.display = 'none'
+    this.closeButton.style.color = 'white'
+    this.closeButton.style.zIndex = '5'
+    this.root.style.cursor = 'pointer'
+    this.closeButton.classList.add('click-zoom-close-button')
+    this.root.appendChild(this.closeButton)
+
     this.root.addEventListener('click',function(e){
-      window.requestAnimationFrame(()=>self.trigger('zoom'));
+      self.zoom();
     });
-    this.on('zoom',this.zoom);
-    riot.route(function(hash){
-      if(hash==""){ self.trigger('unzoom') }
-    });
-    this.on('unzoom',this.unzoom);
     window.addEventListener('keyup',function(k){
       if(k.code == 'Escape') {
-        location.hash=""
+        self.unzoom();
       }
+    });
+
+    this.closeButton.addEventListener('click', function(e) {
+      self.unzoom();
+      e.stopPropagation();
     });
   },
   zoom: function(){
-    location.hash = "zoomed"
-    this.root.classList.add("zoomed")
+    var self = this
+    this.closeButton.style.display = 'block'
+    var rect = this.root.getBoundingClientRect()
+    var s = this.canvas.style
+    s.left = String(rect.left)+'px'
+    s.top = String(rect.top)+'px'
+    s.width = String(rect.width)+'px'
+    s.height = String(rect.height)+'px'
+    
+    s.position = 'absolute'
+    window.requestAnimationFrame(function(){
+      s.position = 'fixed'
+      s['transition-property'] = 'width, height, left, top, background-color'
+      s['transition-duration'] = '0.5s'
+      s.width = '100%'
+      s.height = '100%'
+      s.left = '0px'
+      s.top = '0px'
+      self.root.classList.add("zoomed")
+    })
   },
   unzoom: function(){
-    this.root.classList.remove("zoomed")
+    var self = this
+    if (!this.isZoomed()) { return }
+    var rect = this.root.getBoundingClientRect()
+    var s = this.canvas.style
+    
+    //s.position = ''
+    window.requestAnimationFrame(function(){
+      s['transition-property'] = 'width, height, left, top, background-color'
+      s['transition-duration'] = '0.5s'
+      self.closeButton.style.display = 'none'
+      s.left = String(window.scrollX + rect.left)+'px'
+      s.top = String(window.scrollY + rect.top)+'px'
+      s.width = String(rect.width)+'px'
+      s.height = String(rect.height)+'px'
+      s.position = 'absolute'
+      self.root.classList.remove('zoomed');
+      setTimeout(function(){
+        s.left = ''
+        s.top = ''
+        s.width = ''
+        s.height = ''
+        s.position = ''
+        s['transition-property'] = ''
+        s['transition-duration'] = ''
+      },500)
+    })
+
   },
   isZoomed: function(){
     return this.root.classList.contains('zoomed');

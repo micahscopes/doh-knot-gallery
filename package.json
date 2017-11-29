@@ -1,7 +1,7 @@
 {
-  "name": "riot-rollup-example",
+  "name": "riot-3d-sandbox",
   "version": "1.0.0",
-  "description": "Riot with Rollup",
+  "description": "riot-threejs-sandbox",
   "private": true,
   "scripts": {
     "build": "rollup -c",
@@ -12,7 +12,11 @@
     "marked": "^0.3.5",
     "requirejs": "^2.2.0",
     "riot": "^2.4.1",
-    "three": "^0.79.0"
+    "three": "^0.88.0",
+    "three-obj-loader": "^1.1.3",
+    "three-obj-loader-es6": "0.0.1",
+    "three-react-obj-loader": "^1.0.4",
+    "three.js": "^0.77.1"
   },
   "devDependencies": {
     "babel-preset-es2015-rollup": "^1.1.1",

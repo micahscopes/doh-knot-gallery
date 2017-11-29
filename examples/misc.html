@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+  <meta charset="UTF-8">
+
+  <title>random torus knots!</title>
+  <style>
+    html {
+      cursor: none;
+    }
+    .follow-mouse {
+      position: fixed;
+      border-radius: 100%;
+      border: dotted black 3px;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    random-torus.bigger {
+      top: 0px;
+      left: 0px;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <random-torus style="background-color: aquamarine; border: solid grey 5px;" data-zoomable data-texture="smudgy1.jpg"></random-torus>
+  <random-torus class='follow-mouse' data-texture="smudgy2.png"></random-torus>
+  <random-torus class='' data-zoomable data-texture="smudgy3.jpg"></random-torus>
+  <obj-viewer data-obj-src='./teapot.obj'></obj-viewer>
+  <script src="../bundle.js"></script>
+
+    <script>
+      var mouseFollowers = document.querySelectorAll('.follow-mouse');
+      console.log(mouseFollowers);
+      document.onmousemove = function(e){
+        for(var f of mouseFollowers) {
+          // console.log(f);
+          f.style.left = (e.clientX-0.5*f.clientWidth)+"px";
+          f.style.top = (e.clientY-0.5*f.clientHeight)+"px";
+        }
+      }
+    </script>
+  </body>
+
+</html>

@@ -1,4 +1,4 @@
-import THREE from 'three'
+import * as THREE from 'three'
 import {SceneCameraMixin,ClickZoomMixin,TurntableMixin} from './mixins.js'
 
 <random-torus>
@@ -17,7 +17,7 @@ import {SceneCameraMixin,ClickZoomMixin,TurntableMixin} from './mixins.js'
       self.updateTexture();
     });
 
-    this.root.addEventListener('click',function(){
+    this.root.addEventListener('click',function(e){
       if(self.isZoomed()){
         self.updateGeometry();
         self.updateTexture();
@@ -33,7 +33,7 @@ import {SceneCameraMixin,ClickZoomMixin,TurntableMixin} from './mixins.js'
         while(r1 == r2){
           r2 = Math.floor(Math.random()*5)+1
         }
-        console.log('using torus knot:',r1,r2)
+        //self.root.setAttribute('torus-knot',r1,r2)
         self.mesh.geometry = new THREE.TorusKnotGeometry(100,15,128,16,r1,r2);
       }
     }
@@ -56,7 +56,7 @@ import {SceneCameraMixin,ClickZoomMixin,TurntableMixin} from './mixins.js'
       width: 200px;
       height: 200px;
     }
-    :scope.zoomed{
+    :scope.zoomed canvas{
       position: fixed;
       width:100%;
       height:100%;
@@ -65,6 +65,7 @@ import {SceneCameraMixin,ClickZoomMixin,TurntableMixin} from './mixins.js'
       margin: 0;
       padding: 0;
       border: none;
+      background-color: rgba(1,1,1,0.8);
     }
     canvas {
       width: 100%;
