@@ -1,7 +1,7 @@
 {
-  "name": "riot-3d-sandbox",
+  "name": "torus-knot-gallery",
   "version": "1.0.0",
-  "description": "riot-threejs-sandbox",
+  "description": "these are no ordinary donuts!",
   "private": true,
   "scripts": {
     "build": "rollup -c",
