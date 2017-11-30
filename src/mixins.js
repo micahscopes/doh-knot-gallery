@@ -41,14 +41,16 @@ export const ClickZoomMixin = {
     var self = this;
     this.closeButton = document.createElement('a')
     this.closeButton.innerHTML = '&#10006;'
-    this.closeButton.style.userSelect = 'none';
-    this.closeButton.style.top = 0;
-    this.closeButton.style.left = 0;
-    this.closeButton.style.position = 'fixed'
-    this.closeButton.style.fontSize = '4em'
-    this.closeButton.style.display = 'none'
-    this.closeButton.style.color = 'white'
-    this.closeButton.style.zIndex = '5'
+    var cbs = this.closeButton.style
+    cbs.border = 'none';
+    cbs.userSelect = 'none';
+    cbs.top = 0;
+    cbs.left = 0;
+    cbs.position = 'fixed'
+    cbs.fontSize = '4em'
+    cbs.display = 'none'
+    cbs.color = 'white'
+    cbs.zIndex = 10001
     this.root.style.cursor = 'pointer'
     this.closeButton.classList.add('click-zoom-close-button')
     this.root.appendChild(this.closeButton)
@@ -69,7 +71,7 @@ export const ClickZoomMixin = {
   },
   zoom: function(){
     var self = this
-    this.closeButton.style.display = 'block'
+    this.closeButton.style.display = 'flex'
     var rect = this.root.getBoundingClientRect()
     var s = this.canvas.style
     s.left = String(rect.left)+'px'
@@ -80,6 +82,7 @@ export const ClickZoomMixin = {
     s.position = 'absolute'
     window.requestAnimationFrame(function(){
       s.position = 'fixed'
+      self.root.style.zIndex = 5000
       s['transition-property'] = 'width, height, left, top, background-color'
       s['transition-duration'] = '0.5s'
       s.width = '100%'
@@ -114,6 +117,7 @@ export const ClickZoomMixin = {
         s.position = ''
         s['transition-property'] = ''
         s['transition-duration'] = ''
+        self.root.style.zIndex = 0
       },500)
     })
 
